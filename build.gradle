@@ -1,0 +1,44 @@
+buildscript {
+  dependencies {
+    classpath 'com.google.cloud.tools:appengine-gradle-plugin:2.2.0'    // Latest 1.x.x release
+  }
+}
+
+plugins {
+  id 'org.springframework.boot' version '2.2.4.RELEASE'
+  id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+  id 'java'
+  id 'war'  //Needed by App Engine plugin
+}
+
+apply plugin: 'com.google.cloud.tools.appengine'  // App Engine tasks
+
+group = 'com.regionalit'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile group: 'com.google.cloud.tools', name: 'appengine-gradle-plugin', version: '2.2.0'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  testImplementation('org.springframework.boot:spring-boot-starter-test') {
+    exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+  }
+}
+
+test {
+  useJUnitPlatform()
+}
+
+appengine {  // App Engine tasks configuration
+  tools {
+    cloudSdkHome = '/Users/xiaojun.luo/google-cloud-sdk'
+  }
+  deploy {   // deploy configuration
+    projectId = 'silent-snow-265406'
+    version = 'xiaojun-2020-01-22-23-18-15'
+  }
+}
