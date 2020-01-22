@@ -1,0 +1,34 @@
+version: 2.1
+
+orbs:
+  docker: circleci/docker@0.5.20
+  gcp-cli: circleci/gcp-cli@1.8.3
+
+jobs:
+  deploy-to-gcp:
+    executor: gcp-cli/default
+    steps:
+    - gcp-cli/install
+    - gcp-cli/initialize
+    - setup_remote_docker
+    - checkout
+    - run:
+        name: Auth docker
+        command: gcloud auth configure-docker --quiet
+    - run:
+        name: Build image
+        command: |
+          docker build -t gcr.io/silent-snow-265406/dso-service-image .
+    - run:
+        name: Push image
+        command: docker push gcr.io/silent-snow-265406/dso-service-image
+    - run:
+        name: Deploy with image
+        command: |
+          gcloud app deploy src/main/appengine/app.yaml --image-url=gcr.io/silent-snow-265406/dso-service-image --promote --quiet
+
+workflows:
+  version: 2.1
+  build-deploy:
+    jobs:
+    - deploy-to-gcp
