@@ -43,19 +43,13 @@ jobs:
   hawkeye-scan:
     executor: docker/docker
     steps:
-    - attach_workspace:
-        at: /tmp/workspace
     - setup_remote_docker
-    - run:
-        name: load local image
-        command: docker load -i /tmp/workspace/dso-image.tar
+    - checkout
     - run:
         name: hawkeye scan
         command: |
-          docker run -d --name web-app gcr.io/silent-snow-265406/dso-service-image:latest ls && docker cp web-app:/app .
-          docker stop web-app
           docker create -v /application --name tmp-app alpine:3.4 /bin/true
-          docker cp app/. tmp-app:/application
+          docker cp . tmp-app:/application
           mkdir hawkeye-report
           docker run --rm --volumes-from tmp-app hawkeyesec/scanner-cli:latest -t /application -e settings.py | tee ./hawkeye-report/results.txt
           ls hawkeye-report
