@@ -87,10 +87,12 @@ workflows:
     jobs:
     - build-docker-image
     - hawkeye-scan:
-        requires: build-docker-image
+        requires:
+          - build-docker-image
     - Deploy to gcp ?:
         type: approval
         requires:
-        - hawkeye-scan
+          - hawkeye-scan
     - deploy-to-gcp:
-        requires: Deploy to gcp ?
+        requires:
+          - Deploy to gcp ?
