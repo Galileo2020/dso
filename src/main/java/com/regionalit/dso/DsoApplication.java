@@ -15,6 +15,6 @@ public class DsoApplication {
 
   @GetMapping("")
   String hello() {
-    return "hello xiaojun!";
+    return "hello, the time is 2020-01-23 00:12:08";
   }
 }
