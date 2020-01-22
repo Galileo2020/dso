@@ -62,8 +62,6 @@ jobs:
         path: hawkeye-report
   deploy-to-gcp:
     executor: gcp-cli/default
-      docker:
-      - image: circleci/openjdk:8-jdk-node
     steps:
     - attach_workspace:
         at: /tmp/workspace
