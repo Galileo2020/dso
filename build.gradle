@@ -34,9 +34,9 @@ test {
 }
 
 appengine {  // App Engine tasks configuration
-  tools {
-    cloudSdkHome = '/Users/xiaojun.luo/google-cloud-sdk'
-  }
+//  tools {
+//    cloudSdkHome = '/Users/xiaojun.luo/google-cloud-sdk'
+//  }
   deploy {   // deploy configuration
     projectId = 'silent-snow-265406'
     version = 'xiaojun-2020-01-22-23-18-15'
