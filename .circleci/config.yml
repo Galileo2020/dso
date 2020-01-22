@@ -46,6 +46,9 @@ jobs:
     - setup_remote_docker
     - checkout
     - run:
+        name: Build Jar
+        command: ./gradlew clean build
+    - run:
         name: hawkeye scan
         command: |
           docker create -v /application --name tmp-app alpine:3.4 /bin/true
