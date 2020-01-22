@@ -7,6 +7,8 @@ orbs:
 jobs:
   deploy-to-gcp:
     executor: gcp-cli/default
+    docker:
+    - image: circleci/openjdk:8-jdk-node
     steps:
     - gcp-cli/install
     - gcp-cli/initialize
