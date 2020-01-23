@@ -55,7 +55,7 @@ jobs:
         command: |
           ls
           docker create -v /application --name tmp-app alpine:3.4 /bin/true
-          docker cp . tmp-app:/application
+          docker cp -rf . tmp-app:/application
           mkdir hawkeye-report
           docker run --rm --volumes-from tmp-app hawkeyesec/scanner-cli:latest -t /application | tee ./hawkeye-report/results.txt
           ls hawkeye-report
