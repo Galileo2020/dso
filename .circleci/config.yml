@@ -42,6 +42,8 @@ jobs:
         - ./dso-image.tar
   hawkeye-scan:
     executor: docker/docker
+    docker:
+    - image: circleci/openjdk:8-jdk-node
     steps:
     - checkout
     - run:
