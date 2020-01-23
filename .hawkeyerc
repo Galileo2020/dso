@@ -1,0 +1,4 @@
+^test/
+^README.md
+^gradle/
+^appengine-gradle-plugin-2.2.0.jar
