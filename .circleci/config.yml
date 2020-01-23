@@ -45,6 +45,7 @@ jobs:
     docker:
     - image: circleci/openjdk:8-jdk-node
     steps:
+    - setup_remote_docker
     - checkout
     - run:
         name: Build package
