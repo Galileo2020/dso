@@ -93,7 +93,7 @@ workflows:
     - Deploy to gcp ?:
         type: approval
         requires:
-          - hawkeye-scan
+          - build-docker-image
     - deploy-to-gcp:
         requires:
           - Deploy to gcp ?
