@@ -23,6 +23,7 @@ repositories {
 dependencies {
   compile group: 'com.google.cloud.tools', name: 'appengine-gradle-plugin', version: '2.2.0'
   implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.elasticsearch.client:elasticsearch-rest-client:7.5.2'
   testImplementation('org.springframework.boot:spring-boot-starter-test') {
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
   }
