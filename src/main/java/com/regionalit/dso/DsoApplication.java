@@ -22,6 +22,21 @@ public class DsoApplication {
 
   public DsoApplication(CommodityService commodityService) {
     this.commodityService = commodityService;
+  }
+
+  public static void main(String[] args) {
+    SpringApplication.run(DsoApplication.class, args);
+
+  }
+
+  @GetMapping("")
+  String hello() {
+    return "hello, the time is 2020-02-24 17:18:30";
+  }
+
+
+  @GetMapping("/init_test_data")
+  String init_test_data() {
     Commodity commodity = new Commodity();
     commodity.setSkuId("1501009001");
     commodity.setName("原味切片面包（10片装）");
@@ -43,15 +58,7 @@ public class DsoApplication {
     commodity.setPrice(120);
     commodity.setBrand("百草味");
     commodityService.save(commodity);
-  }
-
-  public static void main(String[] args) {
-    SpringApplication.run(DsoApplication.class, args);
-  }
-
-  @GetMapping("")
-  String hello() {
-    return "hello, the time is 2020-02-24 17:18:30";
+    return "init_test_data 2020-03-03 00:20:10";
   }
 
   @GetMapping("/search_with_rest_client")
