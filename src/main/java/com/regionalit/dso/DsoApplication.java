@@ -57,7 +57,7 @@ public class DsoApplication {
   @GetMapping("/search_with_rest_client")
   String search() throws IOException {
     RestClient client = RestClient.builder(
-        new HttpHost("10.168.0.2", 9200, "http")).build();
+        new HttpHost("10.128.15.205", 9200, "http")).build();
     Request request = new Request("GET", "/commodity/commodity/1501009004?pretty=true");
     Response response = client.performRequest(request);
     client.close();
