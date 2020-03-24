@@ -9,14 +9,9 @@ jobs:
       image: ubuntu-1604:201903-01
     steps:
     - run:
-        command: node -v
-    - run:
         name: Install node10 and build
         command: |
           export NVM_DIR="/opt/circleci/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          nvm install v10
-          nvm use v10
-          node -v
-    - run:
-        command: node -v
+          nvm install 10
+          nvm use 10
