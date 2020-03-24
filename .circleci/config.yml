@@ -2,8 +2,6 @@ version: 2.1
 
 jobs:
   test:
-    environment:
-      BASH_ENV: run/env/test/.env
     machine:
       image: ubuntu-1604:201903-01
     steps:
@@ -12,8 +10,8 @@ jobs:
     - run:
         name: Install node10 and build
         command: |
-          echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
-          echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+          export NVM_DIR="/opt/circleci/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm install v10
           nvm alias default v10
           node -v
