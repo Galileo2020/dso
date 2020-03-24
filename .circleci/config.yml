@@ -1,0 +1,22 @@
+# Java Gradle CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2
+jobs:
+  aquasec-scan:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+    - run:
+        command: node -v
+    - run:
+        name: Install node10 and build
+        command: |
+          export NVM_DIR="/opt/circleci/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          nvm install v10
+          nvm use v10
+          node -v
+    - run:
+        command: node -v
