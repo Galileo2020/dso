@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   test:
     environment:
-      BASH_ENV: run/env/test/.env
+      BASH_ENV: .config
     machine:
       image: ubuntu-1604:201903-01
     steps:
@@ -12,6 +12,7 @@ jobs:
     - run:
         name: Install node10 and build
         command: |
+          touch .config
           echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
           echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
           nvm install v10
