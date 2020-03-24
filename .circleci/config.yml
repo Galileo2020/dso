@@ -10,10 +10,10 @@ jobs:
     - run:
         name: Install node10 and build
         command: |
-          export NVM_DIR="/opt/circleci/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+          echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
           nvm install v10
-          nvm use v10
+          nvm alias default v10
           node -v
     - run:
         command: node -v
