@@ -16,7 +16,10 @@ jobs:
           nvm alias default v10
           node -v
     - run:
-        command: node -v
+        command: |
+          export NVM_DIR="/opt/circleci/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          node -v
 workflows:
   version: 2.1
   test:
