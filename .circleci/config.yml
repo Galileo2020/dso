@@ -1,10 +1,7 @@
-# Java Gradle CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-java/ for more details
-#
-version: 2
+version: 2.1
+
 jobs:
-  aquasec-scan:
+  test:
     machine:
       image: ubuntu-1604:201903-01
     steps:
@@ -20,3 +17,8 @@ jobs:
           node -v
     - run:
         command: node -v
+workflows:
+  version: 2.1
+  test:
+    jobs:
+    - test
