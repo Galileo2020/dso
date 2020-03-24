@@ -1,99 +1,22 @@
-version: 2.1
-
-orbs:
-  docker: circleci/docker@0.5.20
-  gcp-cli: circleci/gcp-cli@1.8.3
-
+# Java Gradle CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2
 jobs:
-  build-docker-image:
-    executor: gcp-cli/default
-    docker:
-    - image: circleci/openjdk:8-jdk-node
+  aquasec-scan:
+    machine:
+      image: ubuntu-1604:201903-01
     steps:
-    - gcp-cli/install
-    - gcp-cli/initialize
-    - setup_remote_docker
-    - checkout
     - run:
-        name: Build package
-        command: ./gradlew clean build
+        command: node -v
     - run:
-        name: Auth docker
-        command: gcloud auth configure-docker --quiet
-    - run:
-        name: Build image
+        name: Install node10 and build
         command: |
-          docker build -t gcr.io/silent-snow-265406/dso-service-image .
+          export NVM_DIR="/opt/circleci/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          nvm install v10
+          nvm use v10
+          node -v
     - run:
-        name: aquasec scan
-        command: |
-          mkdir aquasec-report
-          cd aquasec
-          MICROSCANNER_TOKEN=$MICROSCANNER_TOKEN ./grabhtml.sh gcr.io/silent-snow-265406/dso-service-image > ../aquasec-report/reports.html
-          cat ../aquasec-report/reports.html
-    - store_artifacts:
-        path: aquasec-report
-    - run:
-        name: save docker image
-        command: docker save -o dso-image.tar gcr.io/silent-snow-265406/dso-service-image:latest
-    - persist_to_workspace:
-        root: .
-        paths:
-        - ./dso-image.tar
-  hawkeye-scan:
-    executor: docker/docker
-    docker:
-    - image: circleci/openjdk:8-jdk-node
-    steps:
-    - setup_remote_docker
-    - checkout
-    - run:
-        name: Build package
-        command: ./gradlew clean build
-    - run:
-        name: hawkeye scan
-        command: |
-          ls
-          docker create -v /application --name tmp-app alpine:3.4 /bin/true
-          docker cp . tmp-app:/application
-          mkdir hawkeye-report
-          docker run --rm --volumes-from tmp-app hawkeyesec/scanner-cli:latest -t /application | tee ./hawkeye-report/results.txt
-          ls hawkeye-report
-    - store_artifacts:
-        path: hawkeye-report
-  deploy-to-gcp:
-    executor: gcp-cli/default
-    steps:
-    - attach_workspace:
-        at: /tmp/workspace
-    - gcp-cli/install
-    - gcp-cli/initialize
-    - setup_remote_docker
-    - checkout
-    - run:
-        name: Auth docker
-        command: gcloud auth configure-docker --quiet
-    - run:
-        name: Load local image
-        command: docker load -i /tmp/workspace/dso-image.tar
-    - run:
-        name: Push image
-        command: docker push gcr.io/silent-snow-265406/dso-service-image
-    - run:
-        name: Deploy with image
-        command: gcloud app deploy src/main/appengine/app.yaml --image-url=gcr.io/silent-snow-265406/dso-service-image --promote --quiet
-workflows:
-  version: 2.1
-  build-deploy:
-    jobs:
-    - build-docker-image
-    - hawkeye-scan:
-        requires:
-          - build-docker-image
-    - Deploy to gcp ?:
-        type: approval
-        requires:
-          - build-docker-image
-    - deploy-to-gcp:
-        requires:
-          - Deploy to gcp ?
+        command: node -v
